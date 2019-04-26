@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Course Argentina</title>
+    <style>
+      body {
+        margin: 0px;
+      }
+
+      .container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .center-panel {
+        width: 20%;
+        height: 40%;
+        display: flex;
+        align-items: center;
+        background-color: rgb(226, 226, 226);
+        border-radius: 10px;
+        flex-direction: column;
+      }
+
+
+      .btn-raffle {
+        width: 90%;
+      }
+
+      .btn-save {
+        width: 90%;
+        margin-top: 10%;
+      }
+    </style>
+
+    <script>
+
+      function raffle() {
+        var http = new XMLHttpRequest();
+        http.onreadystatechange = function() {
+          var responseJson = http.responseText;
+          var number = responseJson;
+
+          var txtNumber = document.getElementById('txtNumber');
+          txtNumber.innerHTML = number;
+        }
+        http.open('GET', 'http://127.0.0.1:5000/api/course/raffle', true);
+        http.send(null);
+        
+      }
+
+      function save() {
+        var http = new XMLHttpRequest();
+        http.open('POST', 'http://127.0.0.1:5000/api/course/raffle', true);
+        http.setRequestHeader("Content-Type", "application/json");
+        var txtNumber = document.getElementById('txtNumber');
+
+        http.send(JSON.stringify({'number': txtNumber.innerText}));
+        
+      }
+
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="center-panel">
+        <div class="title">
+          <h1>Clique para sortear</h1>
+        </div>
+
+        <button class="btn-raffle" onclick="raffle()">Raflle</button>
+
+        <h1 id="txtNumber"></h1>
+
+        <button class="btn-save" onclick="save()">Save</button>
+      </div>
+    </div>
+  </body>
+</html>
